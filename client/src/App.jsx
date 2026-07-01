@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 // Auth Pages - Check the actual file names in your pages/auth folder
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/signup.jsx';
+import AuthModals from './components/AuthModals';
 
 // User Pages - Match the actual file names (lowercase with dashes)
 import UserDashboard from './pages/user/UserDashboard';
@@ -52,6 +53,7 @@ import './App.css';
 function App() {
   return (
     <Router>
+      <AuthModals />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />

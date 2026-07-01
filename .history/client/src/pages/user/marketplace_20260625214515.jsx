@@ -46,6 +46,18 @@ const Marketplace = () => {
     });
   };
 
+  // Get curation label based on item's curator or a predefined mapping
+  const getCurationLabel = (item) => {
+    const labels = ['Staff Pick', 'Educator Choice', 'Detective Club'];
+    // Use item.curator if it exists, otherwise assign based on index or id
+    if (item.curator && labels.includes(item.curator)) {
+      return item.curator;
+    }
+    // Fallback: assign based on id or some property
+    const index = (item.id || 0) % labels.length;
+    return labels[index];
+  };
+
   const styles = {
     body: { fontFamily: 'Inter, sans-serif', backgroundColor: '#F1F3F5', color: '#343A40', paddingTop: 0, margin: 0 },
     mainContent: { padding: 40, maxWidth: 1440, marginLeft: 'auto', marginRight: 'auto' },
@@ -69,7 +81,20 @@ const Marketplace = () => {
     productPriceRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 },
     productPrice: { fontSize: 20, fontWeight: 800, color: '#1E4D4B', display: 'flex', alignItems: 'center', gap: 4 },
     btnAdd: { padding: '8px 16px', borderRadius: 12, border: 'none', background: '#1E4D4B', color: 'white', fontWeight: 600, cursor: 'pointer' },
-    toast: { position: 'fixed', top: 20, right: 20, padding: '15px 25px', background: 'white', borderRadius: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', gap: 12, transform: 'translateX(120%)', transition: 'transform 0.4s', zIndex: 1100 }
+    toast: { position: 'fixed', top: 20, right: 20, padding: '15px 25px', background: 'white', borderRadius: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', gap: 12, transform: 'translateX(120%)', transition: 'transform 0.4s', zIndex: 1100 },
+    curationBadge: { 
+      display: 'inline-block', 
+      padding: '2px 10px', 
+      borderRadius: 50, 
+      fontSize: 10, 
+      fontWeight: 600,
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px',
+      marginRight: 6
+    },
+    staffPick: { background: '#E8F0EF', color: '#1E4D4B' },
+    educatorChoice: { background: '#FFF5EC', color: '#E76F51' },
+    detectiveClub: { background: '#E6E6FA', color: '#4A4A8A' }
   };
 
   const currentItems = currentTab === 'bundles' ? bundles : crafts;
@@ -135,28 +160,40 @@ const Marketplace = () => {
         </div>
 
         <div style={styles.productGrid}>
-          {filteredItems.map(item => (
-            <div key={item.id} style={styles.productCard}>
-              <div style={{ 
-                ...styles.productImage, 
-                background: currentTab === 'bundles' ? 'linear-gradient(135deg, #E8F0EF, #D5E8D4)' : 'linear-gradient(135deg, #FFF5EC, #FFE8D6)' 
-              }}>
-                {item.image}
-                <span style={styles.productBadge}>{currentTab === 'bundles' ? item.genre : 'Handmade'}</span>
-              </div>
-              <div style={styles.productDetails}>
-                <h3 style={styles.productTitle}>{item.title}</h3>
-                <div style={styles.productPriceRow}>
-                  <span style={styles.productPrice}>
-                    <i className="fa-solid fa-coins"></i> {item.price}
-                  </span>
-                  <button style={styles.btnAdd} onClick={() => addToCart(item, currentTab)}>
-                    <i className="fa-solid fa-cart-plus"></i> Add
-                  </button>
+          {filteredItems.map(item => {
+            const curationLabel = getCurationLabel(item);
+            let curationStyle = styles.staffPick;
+            if (curationLabel === 'Educator Choice') curationStyle = styles.educatorChoice;
+            if (curationLabel === 'Detective Club') curationStyle = styles.detectiveClub;
+
+            return (
+              <div key={item.id} style={styles.productCard}>
+                <div style={{ 
+                  ...styles.productImage, 
+                  background: currentTab === 'bundles' ? 'linear-gradient(135deg, #E8F0EF, #D5E8D4)' : 'linear-gradient(135deg, #FFF5EC, #FFE8D6)' 
+                }}>
+                  {item.image}
+                  <span style={styles.productBadge}>{currentTab === 'bundles' ? item.genre : 'Handmade'}</span>
+                </div>
+                <div style={styles.productDetails}>
+                  <p style={styles.productMeta}>
+                    <span style={{ ...styles.curationBadge, ...curationStyle }}>
+                      ✦ {curationLabel}
+                    </span>
+                  </p>
+                  <h3 style={styles.productTitle}>{item.title}</h3>
+                  <div style={styles.productPriceRow}>
+                    <span style={styles.productPrice}>
+                      <i className="fa-solid fa-coins"></i> {item.price}
+                    </span>
+                    <button style={styles.btnAdd} onClick={() => addToCart(item, currentTab)}>
+                      <i className="fa-solid fa-cart-plus"></i> Add
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </main>
 

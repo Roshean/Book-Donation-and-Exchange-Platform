@@ -145,6 +145,7 @@ const Marketplace = () => {
                 <span style={styles.productBadge}>{currentTab === 'bundles' ? item.genre : 'Handmade'}</span>
               </div>
               <div style={styles.productDetails}>
+                <p style={styles.productMeta}>{currentTab === 'bundles' ? `Curated by ${item.curator}` : `By ${item.seller}`}</p>
                 <h3 style={styles.productTitle}>{item.title}</h3>
                 <div style={styles.productPriceRow}>
                   <span style={styles.productPrice}>

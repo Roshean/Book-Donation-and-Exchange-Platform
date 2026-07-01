@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
-const Login = ({ isModal, onSwitch, onSuccess }) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -38,17 +37,13 @@ const Login = ({ isModal, onSwitch, onSuccess }) => {
       
       const userRole = data.user.role;
       
-      if (onSuccess) {
-        onSuccess();
-      }
-      
       // If there's a redirect path and it's valid, use it
       if (redirectPath) {
         navigate(redirectPath);
         return;
       }
 
-      // Otherwise, redirect based on role (only if not a modal, or if we want to force navigation)
+      // Otherwise, redirect based on role
       if (userRole === 'PLATFORM_ADMIN') {
         navigate('/admin/dashboard');
       } else if (userRole === 'OPERATIONS_STAFF') {
@@ -69,23 +64,16 @@ const Login = ({ isModal, onSwitch, onSuccess }) => {
   };
 
   const styles = {
-    body: isModal ? {
-      margin: 0, padding: 0, width: '100%', fontFamily: 'Inter, sans-serif'
-    } : { 
+    body: { 
       fontFamily: 'Inter, sans-serif', 
       background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)', 
-      minHeight: '100vh', 
+      height: '100vh', 
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center', 
       margin: 0 
     },
-    loginContainer: isModal ? {
-      width: '100%',
-      padding: '40px 30px',
-      textAlign: 'center',
-      boxSizing: 'border-box'
-    } : { 
+    loginContainer: { 
       width: '100%', 
       maxWidth: 450, 
       background: 'white', 
@@ -165,16 +153,9 @@ const Login = ({ isModal, onSwitch, onSuccess }) => {
   return (
     <div style={styles.body}>
       <div style={styles.loginContainer}>
-        {!isModal && (
-          <Link to="/" style={styles.logo}>
-            <i className="fa-solid fa-book-open"></i> ShareShelf
-          </Link>
-        )}
-        {isModal && (
-          <div style={styles.logo}>
-            <i className="fa-solid fa-book-open"></i> ShareShelf
-          </div>
-        )}
+        <Link to="/" style={styles.logo}>
+          <i className="fa-solid fa-book-open"></i> ShareShelf
+        </Link>
         <p style={{ color: '#6C757D', marginBottom: 30 }}>
           {redirectPath ? 'Please log in to continue' : 'Welcome back, book lover!'}
         </p>
@@ -196,32 +177,14 @@ const Login = ({ isModal, onSwitch, onSuccess }) => {
           
           <div style={styles.formGroup}>
             <label style={styles.label}>Password</label>
-            <div style={{ position: 'relative' }}>
-              <input 
-                type={showPassword ? "text" : "password"}
-                style={styles.formControl} 
-                placeholder="••••••••" 
-                required 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-              />
-              <button 
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                style={{
-                  position: 'absolute',
-                  right: '12px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: '#6C757D'
-                }}
-              >
-                <i className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-              </button>
-            </div>
+            <input 
+              type="password" 
+              style={styles.formControl} 
+              placeholder="••••••••" 
+              required 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+            />
           </div>
           
           <button 
@@ -237,11 +200,7 @@ const Login = ({ isModal, onSwitch, onSuccess }) => {
         </form>
         
         <p style={{ marginTop: 25, fontSize: 14 }}>
-          Don't have an account? {isModal ? (
-            <span onClick={onSwitch} style={{ color: '#E76F51', cursor: 'pointer', fontWeight: 700 }}>Join the revolution</span>
-          ) : (
-            <Link to="/signup" style={{ color: '#E76F51', textDecoration: 'none', fontWeight: 700 }}>Join the revolution</Link>
-          )}
+          Don't have an account? <Link to="/signup" style={{ color: '#E76F51', textDecoration: 'none', fontWeight: 700 }}>Join the revolution</Link>
         </p>
       </div>
     </div>

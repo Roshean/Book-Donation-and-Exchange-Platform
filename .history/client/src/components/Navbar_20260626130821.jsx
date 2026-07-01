@@ -40,7 +40,7 @@ export default function Navbar({
     localStorage.removeItem('user');
     localStorage.removeItem('ss_current_user');
     localStorage.removeItem('userRole');
-    navigate('/');
+    navigate('/login');
   };
 
   const isActive = (path) => location.pathname === path;
@@ -50,7 +50,7 @@ export default function Navbar({
   const publicLinks = [
     { to: '/', label: 'Home' },
     { label: 'How It Works', hash: 'how-it-works' },
-    { to: '?auth=login&redirect=/marketplace', label: 'Marketplace', requiresLogin: true },
+    { to: '/login?redirect=/marketplace', label: 'Marketplace', requiresLogin: true },
     { label: 'About', hash: 'about' },
   ];
 
@@ -130,7 +130,7 @@ export default function Navbar({
                     to={link.to}
                     end={link.to === '/'}
                     className={({ isActive }) =>
-                      `ss-navbar__link ${(isActive && !link.to.startsWith('?')) ? 'ss-navbar__link--active' : ''}`
+                      `ss-navbar__link ${isActive ? 'ss-navbar__link--active' : ''}`
                     }
                   >
                     {link.label}
@@ -144,8 +144,8 @@ export default function Navbar({
           <div className="ss-navbar__actions">
             {variant === 'public' && (
               <>
-                <Link to="?auth=signup" className="ss-navbar__btn ss-navbar__btn--ghost">Sign Up</Link>
-                <Link to="?auth=login" className="ss-navbar__btn ss-navbar__btn--primary">Log In</Link>
+                <Link to="/signup" className="ss-navbar__btn ss-navbar__btn--ghost">Sign Up</Link>
+                <Link to="/login" className="ss-navbar__btn ss-navbar__btn--primary">Log In</Link>
               </>
             )}
 
@@ -191,7 +191,7 @@ export default function Navbar({
             )}
 
             {variant === 'community' && (
-              <Link to="?auth=login" className="ss-navbar__btn ss-navbar__btn--primary">
+              <Link to="/login" className="ss-navbar__btn ss-navbar__btn--primary">
                 Sign In
               </Link>
             )}
@@ -236,7 +236,7 @@ export default function Navbar({
                   to={link.to}
                   end={link.to === '/'}
                   className={({ isActive }) =>
-                    `ss-navbar__mobile-link ${(isActive && !link.to.startsWith('?')) ? 'ss-navbar__mobile-link--active' : ''}`
+                    `ss-navbar__mobile-link ${isActive ? 'ss-navbar__mobile-link--active' : ''}`
                   }
                   onClick={() => setMobileOpen(false)}
                 >
@@ -249,8 +249,8 @@ export default function Navbar({
           <div className="ss-navbar__mobile-actions">
             {variant === 'public' && (
               <>
-                <Link to="?auth=signup" className="ss-navbar__btn ss-navbar__btn--ghost" onClick={() => setMobileOpen(false)}>Sign Up</Link>
-                <Link to="?auth=login" className="ss-navbar__btn ss-navbar__btn--primary" onClick={() => setMobileOpen(false)}>Log In</Link>
+                <Link to="/signup" className="ss-navbar__btn ss-navbar__btn--ghost" onClick={() => setMobileOpen(false)}>Sign Up</Link>
+                <Link to="/login" className="ss-navbar__btn ss-navbar__btn--primary" onClick={() => setMobileOpen(false)}>Log In</Link>
               </>
             )}
             {variant === 'user' && user && (

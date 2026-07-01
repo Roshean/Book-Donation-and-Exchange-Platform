@@ -80,56 +80,24 @@ const Marketplace = () => {
       <Navbar variant="user" user={user} cartCount={cart.length} />
 
       <main style={styles.mainContent}>
-        <div style={styles.pageHeader}>
-          <h1 style={styles.pageHeaderH1}>Marketplace</h1>
-          <p>Redeem your hard-earned points for curated treasures.</p>
-        </div>
+        <div style={styles.pageHeader}><h1 style={styles.pageHeaderH1}>Marketplace</h1><p>Redeem your hard-earned points for curated treasures.</p></div>
 
         <div style={styles.tabs}>
-          <button 
-            style={{ ...styles.tabBtn, ...(currentTab === 'bundles' ? styles.tabBtnActive : {}) }} 
-            onClick={() => setCurrentTab('bundles')}
-          >
-            📚 Book Bundles
-          </button>
-          <button 
-            style={{ ...styles.tabBtn, ...(currentTab === 'crafts' ? styles.tabBtnActive : {}) }} 
-            onClick={() => setCurrentTab('crafts')}
-          >
-            🎨 Paper Crafts
-          </button>
+          <button style={{ ...styles.tabBtn, ...(currentTab === 'bundles' ? styles.tabBtnActive : {}) }} onClick={() => setCurrentTab('bundles')}>📚 Book Bundles</button>
+          <button style={{ ...styles.tabBtn, ...(currentTab === 'crafts' ? styles.tabBtnActive : {}) }} onClick={() => setCurrentTab('crafts')}>🎨 Paper Crafts</button>
         </div>
 
         <div style={styles.filterBar}>
-          <div style={styles.searchBox}>
-            <i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#6C757D' }}></i>
-            <input 
-              type="text" 
-              style={styles.searchInput} 
-              placeholder="Search for bundles or crafts..." 
-              value={searchTerm} 
-              onChange={(e) => setSearchTerm(e.target.value)} 
-            />
-          </div>
+          <div style={styles.searchBox}><i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#6C757D' }}></i><input type="text" style={styles.searchInput} placeholder="Search for bundles or crafts..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} /></div>
           <div style={styles.filterGroup}>
             <select style={styles.filterSelect} value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
               <option value="all">All Categories</option>
-              {currentTab === 'bundles' && (
-                <>
-                  <option value="Fiction">Fiction</option>
-                  <option value="Self-Help">Self-Help</option>
-                  <option value="Educational">Educational</option>
-                  <option value="Classics">Classics</option>
-                </>
-              )}
+              {currentTab === 'bundles' && <><option value="Fiction">Fiction</option><option value="Self-Help">Self-Help</option><option value="Educational">Educational</option><option value="Classics">Classics</option></>}
             </select>
           </div>
           <div style={styles.filterGroup}>
             <select style={styles.filterSelect} value={priceFilter} onChange={(e) => setPriceFilter(e.target.value)}>
-              <option value="all">Any Points</option>
-              <option value="low">Under 200 pts</option>
-              <option value="mid">200 - 400 pts</option>
-              <option value="high">400+ pts</option>
+              <option value="all">Any Points</option><option value="low">Under 200 pts</option><option value="mid">200 - 400 pts</option><option value="high">400+ pts</option>
             </select>
           </div>
         </div>
@@ -137,22 +105,16 @@ const Marketplace = () => {
         <div style={styles.productGrid}>
           {filteredItems.map(item => (
             <div key={item.id} style={styles.productCard}>
-              <div style={{ 
-                ...styles.productImage, 
-                background: currentTab === 'bundles' ? 'linear-gradient(135deg, #E8F0EF, #D5E8D4)' : 'linear-gradient(135deg, #FFF5EC, #FFE8D6)' 
-              }}>
+              <div style={{ ...styles.productImage, background: currentTab === 'bundles' ? 'linear-gradient(135deg, #E8F0EF, #D5E8D4)' : 'linear-gradient(135deg, #FFF5EC, #FFE8D6)' }}>
                 {item.image}
                 <span style={styles.productBadge}>{currentTab === 'bundles' ? item.genre : 'Handmade'}</span>
               </div>
               <div style={styles.productDetails}>
+                <p style={styles.productMeta}>{currentTab === 'bundles' ? `Curated by ${item.curator}` : `By ${item.seller}`}</p>
                 <h3 style={styles.productTitle}>{item.title}</h3>
                 <div style={styles.productPriceRow}>
-                  <span style={styles.productPrice}>
-                    <i className="fa-solid fa-coins"></i> {item.price}
-                  </span>
-                  <button style={styles.btnAdd} onClick={() => addToCart(item, currentTab)}>
-                    <i className="fa-solid fa-cart-plus"></i> Add
-                  </button>
+                  <span style={styles.productPrice}><i className="fa-solid fa-coins"></i> {item.price}</span>
+                  <button style={styles.btnAdd} onClick={() => addToCart(item, currentTab)}><i className="fa-solid fa-cart-plus"></i> Add</button>
                 </div>
               </div>
             </div>
@@ -160,12 +122,7 @@ const Marketplace = () => {
         </div>
       </main>
 
-      {toast.show && (
-        <div style={{ ...styles.toast, transform: 'translateX(0)' }}>
-          <i className="fa-solid fa-circle-check" style={{ color: '#2A9D8F' }}></i>
-          <div>{toast.message}</div>
-        </div>
-      )}
+      {toast.show && <div style={{ ...styles.toast, transform: 'translateX(0)' }}><i className="fa-solid fa-circle-check" style={{ color: '#2A9D8F' }}></i><div>{toast.message}</div></div>}
     </div>
   );
 };

@@ -294,19 +294,24 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ============ STATS BAR ============ */}
-      <section style={styles.statsBar}>
+      <section ref={statsRef} style={styles.statsBar}>
         <div style={styles.statsGrid}>
           <div style={{ textAlign: 'center' }}>
-            <span style={styles.statNumber}>📦 12,450+</span>
+            <span style={styles.statNumber}>
+              {counters.books.toLocaleString()}+
+            </span>
             <span style={styles.statLabel}>Books Donated</span>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <span style={styles.statNumber}>👥 3,800+</span>
+            <span style={styles.statNumber}>
+              {counters.members.toLocaleString()}+
+            </span>
             <span style={styles.statLabel}>Active Members</span>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <span style={styles.statNumber}>🪙 1.2M+</span>
+            <span style={styles.statNumber}>
+              {counters.points > 0 ? (counters.points / 1000).toFixed(1) + 'M+' : '0'}
+            </span>
             <span style={styles.statLabel}>Points Earned</span>
           </div>
         </div>
@@ -541,7 +546,7 @@ const Home = () => {
       <section style={styles.ctaBanner}>
         <h2 style={{ color: 'white', fontSize: 36, marginBottom: 16 }}>Ready to Give Your Books a New Story?</h2>
         <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 18, marginBottom: 24 }}>Join thousands of readers and crafters building a library without walls.</p>
-        <Link to="?auth=signup" style={{ ...styles.btn, background: 'white', color: '#E76F51', borderColor: 'white', fontSize: 18, padding: '16px 36px' }}>
+        <Link to="/signup" style={{ ...styles.btn, background: 'white', color: '#E76F51', borderColor: 'white', fontSize: 18, padding: '16px 36px' }}>
           <i className="fa-solid fa-gift"></i> Sign Up Free — Earn 50 Bonus Points
         </Link>
         <p style={styles.ctaNote}>No credit card. Just books and good vibes.</p>
@@ -567,12 +572,12 @@ const Home = () => {
             <h4 style={{ color: 'white', fontSize: 18, marginBottom: 16 }}>Quick Links</h4>
             <ul style={styles.footerLinks}>
               <li style={{ marginBottom: 8 }}>
-                <Link to="?auth=login&redirect=/donate" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14 }}>
+                <Link to="/login?redirect=/donate" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14 }}>
                   Donate Books
                 </Link>
               </li>
               <li style={{ marginBottom: 8 }}>
-                <Link to="?auth=login&redirect=/marketplace" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14 }}>
+                <Link to="/login?redirect=/marketplace" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14 }}>
                   Marketplace
                 </Link>
               </li>
