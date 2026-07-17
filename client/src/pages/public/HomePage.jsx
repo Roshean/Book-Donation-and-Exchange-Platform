@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
-import bookHomeImg from '../../assets/Book_home.png';
+import bookHomeImg from '../../assets/watermarked_img_12786180767688155475.jpg';
 
 const Home = () => {
   useEffect(() => {
